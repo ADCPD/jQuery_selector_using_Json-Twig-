@@ -1,0 +1,77 @@
+<!-- AUthor :  Amir DHAOUADI
+     Date : 10/01/2017
+     Description : Script to display User selection  having the same habilitation of the archived one in the list
+     if we found alternatif profile ! We show botton to edit
+     using javascript, jQuery, Twig  
+
+     mailTo: fr.linkedin.com/in/dhaouadiamir
+ -->
+
+<html>
+<body>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Alternative User</th>
+        </tr>
+    </thead>
+    <tbody>
+     {% for entity in entities %}
+        <tr>
+            <td>{{ entity.id }}</td>
+            <td>{{entity.user}}</td>
+            <td>
+                <div class="btn-group" id="getData">
+                                    <script type="text/javascript">
+
+                                        /**-------- HIDE DIV WHEN NO RESULT  --------**/
+
+                                        var request_parameters = {
+                                            format: "JSON",
+                                            method: 'GET'
+                                        };
+
+                                        var sUrl = "{{ path('habilitation_collaborateur_archived_alternative_json',{ 'profils': entity.emplois ,'unites':entity.unites  }) }}";
+
+                                        $.getJSON(sUrl,
+                                            request_parameters,
+                                            function (datas) {
+                                                console.log(datas);
+
+                                                var div = document.getElementById('getData');
+
+                                                if (datas.length > 0) {
+                                                    div.innerHTML += "<a href='{{ path('_YOUR_ROOT_HERE_SHOW', { 'profils': entity.emplois ,'unites':entity.unites  }) }}' class='btn btn-default'><i class='icon-eye-open'></i> liste collaborateurs </a><a class='btn btn-inverse' href='{{ path('_YOUR_ROOT_HERE_EDIT', { 'id': entity[0].id, 'emploi':entity.emplois , 'unite':entity.unites}) }}'><i class='icon-edit' style='color: white;'></i> habiliter </a>";
+                                                } else {
+                                                    div.innerHTML = "";
+                                                }
+                                            });
+
+                                    </script>
+                                </div>
+            </td>
+        </tr>
+      {% endfor %}
+    </tbody> 
+</table>
+<script type="text/javascript">
+     <script src="{{ asset('bundles/javascript/DataTable/media/js/jquery.dataTables.min.js') }}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            /**------- DATA TABLE CONFIG --------*/
+            $('table').DataTable({
+                "oLanguage": {
+                    "sUrl": "{{ asset('bundles/javascript/DataTable/media/js/i18n.french.txt') }}"
+                }
+            });
+
+
+        });
+    </script>
+</script> 
+</Body>
+</html>
