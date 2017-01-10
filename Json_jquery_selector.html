@@ -33,7 +33,7 @@
                                             method: 'GET'
                                         };
 
-                                        var sUrl = "{{ path('habilitation_collaborateur_archived_alternative_json',{ 'profils': entity.emplois ,'unites':entity.unites  }) }}";
+                                        var sUrl = "{{ path('_YOUR_ROOT_HERE_SHOW_json',{ 'profils': entity.emplois ,'unites':entity.unites  }) }}";
 
                                         $.getJSON(sUrl,
                                             request_parameters,
